@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, "public")))
  *************************/
 // Index route
 app.get("/", function (req, res) {
-  res.render("index", { title: "Home" })
+  res.render("index", { title: "Home", description: "Home Page" })
 })
 
 /* ***********************
