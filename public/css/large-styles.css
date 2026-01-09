@@ -1,0 +1,33 @@
+@media(min-width: 768px) {
+
+    #myButton {
+        display: none;
+    }
+
+
+
+    nav ul.navlist {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        justify-items: center;
+        padding: 0.5rem 0;
+        margin: 0;
+    }
+
+    nav {
+        display: block;
+        width: auto;
+        grid-template-rows: 1fr;
+    }
+
+    nav ul {
+        display: flex;
+        gap: 1rem;
+        background-color: rgb(48, 48, 72);
+    }
+
+    nav ul li a {
+        padding: 0.5rem 1rem;
+    }
+
+}
