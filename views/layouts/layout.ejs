@@ -1,52 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+<%- include('../partials/head') %>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="<%=description%>">
-  <meta name="author" content="Jacob Amoah">
-  <title>
-    <%=title %>
-  </title>
+  <body>
+    <div class="page-wrapper">
+      <%- include('../partials/header') %>
+      <%- include('../partials/navigation') %>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/styles.css">
-  <link rel="stylesheet" href="/css/large-styles.css">
+        <main>
+          <%- body %>
+        </main>
 
-</head>
-
-<body>
-  <header class="site-header">
-    <div class="header-inner">
-      <h1 class="site-title">CSE MOTORS</h1>
-      <a href="/login" class="account-link">MY ACCOUNT</a>
-      <button id="myButton" aria-label="Open navigation menu"></button>
+        <%- include('../partials/footer') %>
     </div>
-    <nav id="animateme">
-      <ul class="navlist">
-        <li><a href="/">Home</a></li>
-        <li><a href="/cusstom">Custom</a></li>
-        <li><a href="/sedan">Sedan</a></li>
-        <li><a href="/suv">SUV</a></li>
-        <li><a href="/truck">Truck</a></li>
-      </ul>
-    </nav>
-  </header>
 
-  <main class="page-wrapper">
-    <%- body %>
-  </main>
+    <script src="/js/nav.js"></script>
 
-  <footer>
-    <p>&copy; 2026 @JACOB AMOAH</p>
-  </footer>
-
-  <script src="/js/nav.js"></script>
-
-</body>
+  </body>
 
 </html>
