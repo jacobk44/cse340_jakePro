@@ -12,9 +12,11 @@
     </div>
     <div class="hero-image">
         <picture>
-            <img src="/images/vehicles/delorean.jpg" alt="DMC Delorean"
-            srcset="/images/vehicles/delorean-tn.jpg 200w, /images/vehicles/delorean.jpg 800w">
+            <source srcset="/images/vehicles/delorean-tn.jpg" media="(max-width: 600px)">
+            <source srcset="/images/vehicles/delorean.jpg" media="(max-width: 1500px)">
+            <img src="/images/vehicles/delorean.jpg" alt="DMC Delorean">
         </picture>
+
     </div>
 </section>
 
