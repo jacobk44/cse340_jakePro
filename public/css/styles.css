@@ -195,10 +195,7 @@ h2 {
 
 footer {
   text-align: center;
-  padding: 15px 0;
-  background-color: #222;
-  color: white;
-  margin-top: 40px;
+  color: rgb(0, 0, 0);
 }
 
 @media (max-width: 768px) {
