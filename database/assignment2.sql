@@ -1,12 +1,12 @@
 
 -- DROP TYPE IF EXISTS public.account_type;
 -- Type: account_type
-DROP TYPE IF EXISTS public.account_type;
+-- DROP TYPE IF EXISTS public.account_type;
 CREATE TYPE public.account_type AS ENUM
     ('Client', 'Employee', 'Admin');
 
 ALTER TYPE public.account_type
-    OWNER TO base410yy;
+    OWNER TO base410pz;
 
 
 -- Table: public.classification
@@ -60,10 +60,10 @@ CREATE TABLE IF NOT EXISTS public.account
     CONSTRAINT account_pkey PRIMARY KEY (account_id)
 )
 
-TABLESPACE pg_default
+TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.account
-    OWNER to base410yy;
+    OWNER to base410pz;
 
 
 -- Data for table 'Classification'
