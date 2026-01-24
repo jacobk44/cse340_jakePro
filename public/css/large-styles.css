@@ -43,4 +43,9 @@
         padding: 20px;
     }
 
+    #inv-display {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 900px;
+  }
+
 }

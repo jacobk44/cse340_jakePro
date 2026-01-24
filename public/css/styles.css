@@ -193,6 +193,50 @@ h2 {
   line-height: 4.5;
 }
 
+
+
+
+#inv-display {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 1rem;
+  padding: 0;
+  margin: 1rem auto;
+  list-style: none;
+  max-width: 800px; 
+}
+
+#inv-display li {
+  padding: 0.75rem;
+  text-align: center;
+  border-radius: 4px;
+}
+
+#inv-display img {
+  width: 100%;
+  max-width: 200px; 
+  height: auto;
+  margin: 0 auto 0.5rem auto;
+  display: block;
+  padding: 0.25rem;
+}
+
+.namePrice {
+  color: #000;
+  background: #fff;
+  padding: 0.25rem;
+}
+
+.namePrice h2 {
+  font-size: 0.9rem;
+  margin: 0.25rem 0;
+}
+
+.namePrice span {
+  font-weight: bold;
+}
+
+
 footer {
   text-align: center;
   color: rgb(0, 0, 0);
@@ -293,10 +337,30 @@ footer {
 
   }
 
-
   .upgrade-items .item img {
     border: 2px solid #1a1a1a;
     padding: 15px 2rem;
+  }
+
+
+
+  #inv-display {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* gap: 1rem; */
+    list-style: none;
+
+  }
+
+  #inv-display li {
+    text-align: center;
+    border-radius: 5px;
+  }
+
+  #inv-display img {
+    height: 120px;
+    object-fit: cover;
+
   }
 
 }

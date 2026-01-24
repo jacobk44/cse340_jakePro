@@ -1,4 +1,4 @@
-
+/**
 -- DROP TYPE IF EXISTS public.account_type;
 -- Type: account_type
 -- DROP TYPE IF EXISTS public.account_type;
