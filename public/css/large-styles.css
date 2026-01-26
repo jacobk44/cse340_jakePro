@@ -31,7 +31,7 @@
     }
 
     body {
-        background-color: #e0e0e0;
+        background-image: url(/images/site/checkerboard.jpg);
         /* desktop-only background */
     }
 

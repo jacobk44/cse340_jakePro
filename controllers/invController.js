@@ -20,5 +20,38 @@ invCont.buildByClassificationId = async function (req, res, next) {
   })
 }
 
+/* ***************************
+  *  Build inventory by vehicle view
+
+  * ************************** */
+
+invCont.buildByVehicleId = async function (req, res, next) {
+  const inv_id = req.params.inv_Id
+  const data = await invModel.getInventoryById(inv_id)
+  const detail = await utilities.buildVehicleDetail(data)
+  let nav = await utilities.getNav()
+
+  res.render("./inventory/detail",{
+    title: `${data.inv_make} ${data.inv_model}`,
+    description: `Details for ${data.inv_make} ${data.inv_model}`,
+    nav,
+    detail,
+  })
+
+
+
+}
+
+
+// Controller function to intentionally trigger a 500 error
+invCont.triggerError = async function (req, res, next) {
+  try {
+    // Throw an intentional error
+    throw new Error("This is an intentional server error for testing")
+  } catch (error) {
+    next(error) // Passes the error to the global error middleware
+  }
+}
+
 
 module.exports = invCont
