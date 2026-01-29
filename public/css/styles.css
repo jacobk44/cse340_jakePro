@@ -198,12 +198,12 @@ h2 {
 
 #inv-display {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); 
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   padding: 0;
   margin: 1rem auto;
   list-style: none;
-  max-width: 800px; 
+  max-width: 800px;
 }
 
 #inv-display li {
@@ -214,7 +214,7 @@ h2 {
 
 #inv-display img {
   width: 100%;
-  max-width: 200px; 
+  max-width: 200px;
   height: auto;
   margin: 0 auto 0.5rem auto;
   display: block;
@@ -237,7 +237,7 @@ h2 {
 }
 
 
-.vehicle-detail{
+.vehicle-detail {
   display: flex;
   gap: 2rem;
   align-items: flex-start;
@@ -260,8 +260,85 @@ h2 {
 .vehicle-info p {
   line-height: 1.5;
   margin: 0.5rem 0;
-} 
+}
 
+
+
+.login-fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 600px;
+  max-width: 90%;
+  border: 4mm ridge rgba(46, 128, 205, 0.6);
+  border-radius:10px ;
+  background-color: #89acfd;
+}
+
+
+.login-fieldset label {
+  font-weight: 600;
+  color: #000000;
+  padding-top: 1rem
+}
+
+.login-fieldset legend{
+  font-weight: 600;
+  color: #000000;
+  /* padding-bottom: 1rem ; */
+}
+
+.login-fieldset input {
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.login-fieldset input[type="submit"] {
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+.signup-link {
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.login-container {
+  display: grid;
+  place-items: center;
+  width: 100%;
+}
+
+.cf1 input[type="submit"] {
+  border-radius: 30px;
+  color: #000000;
+  width: 30%;
+  display: block;
+  margin: 1rem auto;
+}
+
+.cf1 input[type="email"] {
+  border-radius: 5px;
+  border: solid;
+
+}
+
+.cf1 input[type="password"] {
+  border-radius: 5px;
+  border: solid;
+
+}
+
+
+.cf1 input[type="text"] {
+  border-radius: 5px;
+  border: solid;
+
+}
+
+.logh1{
+  margin-left: 1rem;
+}
 
 footer {
   text-align: center;
@@ -389,18 +466,42 @@ footer {
 
   }
 
-  .vehicle-detail{
+  .vehicle-detail {
     flex-direction: column;
   }
-  
+
   .vehicle-image img {
     max-width: 100%;
     padding: 2rem;
 
   }
-  .vehicle-info P{
+
+  .vehicle-info P {
     padding-left: 2rem;
   }
 
-  
+
+
+  .login-fieldset {
+    width: 100%;
+    padding: 1rem;
+    gap: 0.5rem;
+  }
+
+  .login-fieldset input {
+    font-size: 1rem;
+    padding: 0.75rem;
+  }
+
+  .cf1 input[type="submit"] {
+    width: 100%;
+    /* full-width button on mobile */
+    border-radius: 25px;
+  }
+
+  .signup-link {
+    font-size: 0.95rem;
+  }
+
+
 }
