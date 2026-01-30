@@ -16,6 +16,7 @@ const path = require("path");
 const baseController = require("./controllers/baseController")
 const inventoryRoute = require("./routes/inventoryRoute");
 const accountRoute = require("./routes/accountRoute");
+const bodyParser = require("body-parser")
 const app = express();
 const session = require("express-session");
 const pool = require("./database/");
@@ -47,8 +48,8 @@ app.use(function(req, res, next){
 
 
 // 3️⃣ **Body parser** (this is where your line goes)
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 
 /* ***********************
@@ -94,6 +95,8 @@ app.use("/account", accountRoute);
 app.use(async (req, res, next) => {
   next({status: 404, message: 'Sorry, we appear to have lost that page.'})
 })
+
+
 
 /* ***********************
 * Express Error Handler

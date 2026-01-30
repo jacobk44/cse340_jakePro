@@ -1,4 +1,6 @@
 const utilities = require("../utilities/")
+const accountModel = require("../models/account-model")
+
 
 
 /* ****************************************
@@ -42,10 +44,14 @@ async function processLogin(req, res) {
 }
 
 
+
+
+
+
 // Render registration page
 async function buildRegister(req, res, next) {
   const nav = await utilities.getNav()
-  res.render("account/signup", {
+  res.render("account/register", {
     title: "Register",
     nav,
     description: "Create a new account"
@@ -53,27 +59,39 @@ async function buildRegister(req, res, next) {
 }
 
 
+/* ****************************************
+*  Process Registration
+* *************************************** */
+async function registerAccount(req, res) {
+  let nav = await utilities.getNav()
+  const { account_firstname, account_lastname, account_email, account_password } = req.body
 
-// Process registration
-async function processRegister(req, res) {
-  const {
+  const regResult = await accountModel.registerAccount(
     account_firstname,
     account_lastname,
     account_email,
     account_password
-  } = req.body
+  )
 
-  // 1️⃣ Missing fields
-  if (!account_firstname || !account_lastname || !account_email || !account_password) {
-    req.flash("notice", "Please fill in all required fields.")
-    return res.redirect("/account/signup")
+  if (regResult) {
+    req.flash(
+      "notice",
+      `Congratulations, you\'re registered ${account_firstname}. Please log in.`
+    )
+    res.status(201).render("account/login", {
+      title: "Login",
+      nav,
+      description: "login account"
+    })
+  } else {
+    req.flash("notice", "Sorry, the registration failed.")
+    res.status(501).render("account/register", {
+      title: "Registration",
+      nav,
+      description: "register"
+    })
   }
-
-
-  // 4️⃣ Success
-  req.flash("notice", "Registration successful! Please log in.")
-  res.redirect("/account/login")
 }
 
 
-module.exports = { buildLogin, processLogin, buildRegister, processRegister }
+module.exports = { buildLogin, processLogin, buildRegister, registerAccount }

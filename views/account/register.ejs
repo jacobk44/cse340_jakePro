@@ -2,17 +2,24 @@
     <%=title%>
 </h1>
 
-
 <div class="flash-home">
-    <%- messages() %>
+  <ul class="messages">
+    <% if (messages && messages().notice) { %>
+      <% messages().notice.forEach(msg => { %>
+        <li class="notice"><%= msg %></li>
+      <% }) %>
+    <% } %>
+
+    <% if (typeof error !== "undefined" && error.msg) { %>
+      <li class="error"><%= error.msg %></li>
+    <% } %>
+  </ul>
 </div>
 
 
 
-
-
 <div class="login-container">
-    <form action="/account/signup" method="post" class="cf1">
+    <form action="/account/register" method="post" class="cf1">
         <fieldset class="login-fieldset">
 
             <legend>Contact Information</legend>
@@ -33,7 +40,7 @@
                 <i class="fa fa-eye" id="togglePassword" 
                     onclick="togglePasswordVisibility()"></i>
             </div>
-            <input type="submit" value="signup">
+            <input type="submit" value="register">
 
             <p class="signup-link">
                 Login if already have account

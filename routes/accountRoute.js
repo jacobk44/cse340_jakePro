@@ -14,8 +14,13 @@ router.get("/login", utilities.handleErrors(accountController.buildLogin));
 router.post("/login", utilities.handleErrors(accountController.processLogin));
 
 
-router.get("/signup", utilities.handleErrors(accountController.buildRegister));
-router.post("/signup", utilities.handleErrors(accountController.processRegister));
+/***********************
+ Registration View
+************************/
+router.get("/register", utilities.handleErrors(accountController.buildRegister));
+
+router.post("/register", utilities.handleErrors(accountController.registerAccount));
+
 
 
 
