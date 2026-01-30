@@ -349,11 +349,10 @@ h2 {
   right: 10px;
   transform: translateY(-50%);
   cursor: pointer;
-  color: #555
+  color: #000000
 
-} & :hover{
-  color: #000;
-}
+} 
+
 
 .cf1 input[type="text"] {
   border-radius: 5px;
