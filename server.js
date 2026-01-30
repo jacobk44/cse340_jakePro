@@ -86,6 +86,7 @@ app.use((req, res, next) => {
 app.get("/", utilities.handleErrors(baseController.buildHome));
 // Inventory routes
 app.use("/inv", inventoryRoute);
+// Acount route 
 app.use("/account", accountRoute);
 
 

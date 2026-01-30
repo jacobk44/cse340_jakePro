@@ -7,27 +7,32 @@
     <%- messages() %>
 </div>
 
+
+
+
+
 <div class="login-container">
     <form action="/account/signup" method="post" class="cf1">
         <fieldset class="login-fieldset">
 
             <legend>Contact Information</legend>
 
-            <label >First Name</label>
-            <input type="text" name="fname" >
+            <label>First Name</label>
+            <input type="text" name="account_firstname">
 
-            <label >Last Name</label>
-            <input type="text" name="Sname" >
-
-            <label>Phone Number* </label>
-            <input type="tel" name="phone" placeholder="123456789" >
+            <label>Last Name</label>
+            <input type="text" name="account_lastname">
 
             <label for="email">Email:</label>
             <input type="email" id="email" name="account_email">
 
             <label for="password">Password:</label>
-            <input type="password" id="password" name="account_password">
+            <div class="password-container">
+                <input type="password" id="account_password" name="account_password" />
 
+                <i class="fa fa-eye" id="togglePassword" aria-label="Toggle password visibility"
+                    onclick="togglePasswordVisibility()"></i>
+            </div>
             <input type="submit" value="signup">
 
             <p class="signup-link">

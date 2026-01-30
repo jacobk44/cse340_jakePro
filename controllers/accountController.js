@@ -15,7 +15,7 @@ async function buildLogin(req, res, next) {
 
 
 // Process login
-async function processLogin(req, res){
+async function processLogin(req, res) {
   const { account_email, account_password } = req.body
 
   // 1️⃣ Missing fields
@@ -52,41 +52,28 @@ async function buildRegister(req, res, next) {
   })
 }
 
-// Process registration
 
-// Render registration page
-async function buildRegister(req, res, next) {
-  const nav = await utilities.getNav()
-  res.render("account/signup", {
-    title: "Register",
-    nav,
-    description: "Create a new account"
-  })
-}
 
 // Process registration
 async function processRegister(req, res) {
-  const { account_firstname, account_lastname, account_email, account_password, account_type } = req.body
+  const {
+    account_firstname,
+    account_lastname,
+    account_email,
+    account_password
+  } = req.body
 
-  // 1️⃣ Check all fields
-  if (!account_firstname || !account_lastname || !account_email || !account_password || !account_type) {
-    req.flash("error", "All fields are required.")
+  // 1️⃣ Missing fields
+  if (!account_firstname || !account_lastname || !account_email || !account_password) {
+    req.flash("notice", "Please fill in all required fields.")
     return res.redirect("/account/signup")
   }
 
-  // 2️⃣ Check if email already exists
-  const existingAccount = await accountModel.getAccountByEmail(account_email)
-  if (existingAccount) {
-    req.flash("error", "Email already exists.")
-    return res.redirect("/account/signup")
-  }
 
-  // 3️⃣ Add account to database (plain password for now)
-  await accountModel.addAccount(account_firstname, account_lastname, account_email, account_password, account_type)
-
-  req.flash("success", "Account created! You can now log in.")
+  // 4️⃣ Success
+  req.flash("notice", "Registration successful! Please log in.")
   res.redirect("/account/login")
 }
 
 
-module.exports = { buildLogin, processLogin,buildRegister,processRegister }
+module.exports = { buildLogin, processLogin, buildRegister, processRegister }

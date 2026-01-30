@@ -288,6 +288,8 @@ h2 {
   /* padding-bottom: 1rem ; */
 }
 
+
+
 .login-fieldset input {
   padding: 0.5rem;
   font-size: 1rem;
@@ -329,6 +331,29 @@ h2 {
 
 }
 
+.password-container {
+  position: relative;
+
+}
+
+
+.password-container input{
+  width: 100%;
+  padding-right: 40px;
+}
+
+
+.password-container i{
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #555
+
+} & :hover{
+  color: #000;
+}
 
 .cf1 input[type="text"] {
   border-radius: 5px;
