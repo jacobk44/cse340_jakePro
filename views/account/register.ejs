@@ -1,51 +1,52 @@
 <h1 class="logh1">
-    <%=title%>
+  <%=title%>
 </h1>
 
 <div class="flash-home">
   <ul class="messages">
     <% if (messages && messages().notice) { %>
-      <% messages().notice.forEach(msg => { %>
-        <li class="notice"><%= msg %></li>
-      <% }) %>
-    <% } %>
+      <% messages().notice.forEach(msg=> { %>
+        <li class="notice">
+          <%= msg %>
+        </li>
+        <% }) %>
+          <% } %>
 
-    <% if (typeof error !== "undefined" && error.msg) { %>
-      <li class="error"><%= error.msg %></li>
-    <% } %>
+            <% if (typeof error !=="undefined" && error.msg) { %>
+              <li class="error">
+                <%= error.msg %>
+              </li>
+              <% } %>
   </ul>
 </div>
 
 
 
 <div class="login-container">
-    <form action="/account/register" method="post" class="cf1">
-        <fieldset class="login-fieldset">
+  <form action="/account/register" method="post" class="cf1">
+    <fieldset class="login-fieldset">
 
-            <legend>Contact Information</legend>
+      <legend>Contact Information</legend>
 
-            <label>First Name</label>
-            <input type="text" name="account_firstname">
+      <label>First Name</label>
+      <input type="text" name="account_firstname">
 
-            <label>Last Name</label>
-            <input type="text" name="account_lastname">
+      <label>Last Name</label>
+      <input type="text" name="account_lastname">
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="account_email">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="account_email">
 
-            <label for="account_password">Password:</label>
-            <div class="password-container">
-                <input type="password" id="account_password" name="account_password" />
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="account_password" />
+      <span id="pswdBtn" style="cursor:pointer;">Show Password</span>
 
-                <i class="fa fa-eye" id="togglePassword" 
-                    onclick="togglePasswordVisibility()"></i>
-            </div>
-            <input type="submit" value="register">
+      <input type="submit" value="register">
 
-            <p class="signup-link">
-                Login if already have account
-                <a href="/account/login">Login</a>
-            </p>
-        </fieldset>
-    </form>
+      <p class="signup-link">
+        Login if already have account
+        <a href="/account/login">Login</a>
+      </p>
+    </fieldset>
+  </form>
 </div>
