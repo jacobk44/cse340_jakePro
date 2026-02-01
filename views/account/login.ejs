@@ -4,7 +4,7 @@
 
 
 <div class="flash-home">
-  <%- messages() %>
+    <%- messages() %>
 </div>
 
 <div class="login-container">
@@ -13,10 +13,12 @@
             <legend>Login to your account</legend>
 
             <label for="email">Email:</label>
-            <input type="email" id="email" name="account_email" >
+            <input type="email" id="email" name="account_email" required>
 
             <label for="password">Password:</label>
-            <input type="password" id="password" name="account_password" >
+            <input type="password" id="password" name="account_password" required>
+            <span id="pswdBtn" style="cursor:pointer;">Show Password</span>
+
 
             <input type="submit" value="Login">
 

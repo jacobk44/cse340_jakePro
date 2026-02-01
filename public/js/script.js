@@ -1,5 +1,5 @@
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   const pswdBtn = document.querySelector("#pswdBtn");
   const pswInput = document.getElementById("password"); // match the HTML id
 
@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 });
+
 
 
 // function togglePasswordVisibility() {

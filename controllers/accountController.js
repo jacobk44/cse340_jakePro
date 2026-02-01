@@ -47,14 +47,19 @@ async function processLogin(req, res) {
 
 
 
-
-// Render registration page
+/* ****************************************
+*  Deliver registration view
+* *************************************** */
 async function buildRegister(req, res, next) {
-  const nav = await utilities.getNav()
+  let nav = await utilities.getNav()
   res.render("account/register", {
-    title: "Register",
+    title: "Registration",
     nav,
-    description: "Create a new account"
+    errors: null,
+    description: "register",
+    account_firstname: "", // optional: empty string for stickiness
+    account_lastname: "",
+    account_email: ""
   })
 }
 
@@ -88,7 +93,7 @@ async function registerAccount(req, res) {
     res.status(501).render("account/register", {
       title: "Registration",
       nav,
-      description: "register"
+      description: "register account"
     })
   }
 }
