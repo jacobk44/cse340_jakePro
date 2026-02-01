@@ -14,16 +14,33 @@ async function registerAccount(account_firstname, account_lastname, account_emai
 
 
 
+/* *****************************
+* Get account by email (for login)
+***************************** */
+async function getAccountByEmail(account_email) {
+  try {
+    const sql = "SELECT * FROM account WHERE account_email = $1"
+    const result = await pool.query(sql, [account_email])
+    return result.rows[0] // returns the account object
+  } catch (error) {
+    return null
+  }
+}
 
-// async function checkExistingEmail(account_email){
-//   try{
-//     const sql = "SELECT * FROM account WHERE  account_email = $1"
-//     const email = await  pool.query(sql, [account_email])
-//     return email.rowCount
-//   } catch (error){
-//     return error.message
-//   }
-// }
+/* **********************
+ *   Check for existing email
+ * ********************* */
+
+async function checkExistingEmail(account_email){
+  try{
+    const sql = "SELECT * FROM account WHERE  account_email = $1"
+    const email = await  pool.query(sql, [account_email])
+    return email.rowCount
+  } catch (error){
+    return error.message
+  }
+}
 
 
-module.exports = {registerAccount}
+
+module.exports = {registerAccount, checkExistingEmail, getAccountByEmail}

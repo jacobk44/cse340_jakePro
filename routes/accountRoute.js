@@ -14,8 +14,14 @@ const utilities = require("../utilities");
  * Deliver Login View
  **************************/
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
-router.post("/login", utilities.handleErrors(accountController.processLogin));
 
+// Process the login attempt
+router.post(
+  "/login",
+  regValidate.loginRules(),
+  regValidate.checkLoginData,
+  utilities.handleErrors(accountController.processLogin)
+)
 
 /***********************
  Registration View
@@ -24,9 +30,9 @@ router.get("/register", utilities.handleErrors(accountController.buildRegister))
 
 // Process the registration data
 router.post("/register",
-    regValidate.registrationRules(),
-    regValidate.checkRegData,
-    utilities.handleErrors(accountController.registerAccount)
+  regValidate.registrationRules(),
+  regValidate.checkRegData,
+  utilities.handleErrors(accountController.registerAccount)
 )
 
 
