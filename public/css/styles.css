@@ -359,8 +359,87 @@ input:required:valid {
 }
 
 
-input {
-  transition: border-color 0.3s, background-color 0.3s;
+
+/* Form container */
+#add-inventory-form {
+  max-width: 600px;       /* Limit form width */
+  margin: 30px auto;      /* Center the form */
+  padding: 20px;
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  font-family: Arial, sans-serif;
+}
+
+/* Each label/input pair */
+#add-inventory-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Inputs, textarea, select */
+#add-inventory-form input,
+#add-inventory-form textarea,
+#add-inventory-form select {
+  width: 100%;            /* Fill form width */
+  padding: 8px 10px;
+  margin-bottom: 15px;    /* Space below each field */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* Textarea specific */
+#add-inventory-form textarea {
+  height: 80px;
+  resize: vertical;
+}
+
+/* Submit button */
+#add-inventory-form button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#add-inventory-form button:hover {
+  background-color: #0056b3;
+}
+
+/* Flash message styling */
+.flash-home {
+  max-width: 600px;
+  margin: 0 auto 20px;
+  padding: 10px;
+  background-color: #e6ffed;
+  border: 1px solid #b2f5ea;
+  border-radius: 4px;
+  color: #2f855a;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Validation errors list */
+ul.notice {
+  max-width: 600px;
+  margin: 0 auto 20px;
+  padding: 10px;
+  background-color: #ffe6e6;
+  border: 1px solid #ffb2b2;
+  border-radius: 4px;
+  color: #c53030;
+  list-style-type: none;
 }
 
 

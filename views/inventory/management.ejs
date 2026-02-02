@@ -1,0 +1,29 @@
+<h1 class="logh1">
+  <%=title%>
+</h1>
+
+<div class="flash-home">
+  <%- messages() %>
+</div>
+
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+<%  }) %>
+  </ul>
+<% } %>
+
+
+
+<section class="inventory-management">
+
+  <ul>
+    <li>
+      <a href="/inv/add-classification">Add New Classification</a>
+    </li>
+    <li>
+      <a href="/inv/add-inventory">Add New Inventory Item</a>
+    </li>
+  </ul>
+</section>
