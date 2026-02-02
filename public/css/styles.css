@@ -422,10 +422,10 @@ input:required:valid {
   max-width: 600px;
   margin: 0 auto 20px;
   padding: 10px;
-  background-color: #e6ffed;
-  border: 1px solid #b2f5ea;
+  /* background-color: #e6ffed; */
+  /* border: 1px solid #b2f5ea; */
   border-radius: 4px;
-  color: #2f855a;
+  /* color: #2f855a; */
   font-weight: bold;
   text-align: center;
 }
