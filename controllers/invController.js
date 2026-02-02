@@ -113,16 +113,8 @@ invCont.addClassification = async function (req, res) {
     const addResult = await invModel.addClassification(classification_name)
 
     if (addResult && addResult.rowCount === 1) {
-      // 🔁 rebuild nav so new classification appears immediately
-      nav = await utilities.getNav()
-
       req.flash("notice", "Classification added successfully.")
-      return res.status(201).render("inventory/management", {
-        title: "Inventory Management",
-        nav,
-        message: req.flash("notice"),
-        errors: null
-      })
+      return res.redirect("/inv/") // ✅ Redirect here
     } else {
       throw new Error("Insert failed")
     }
@@ -140,6 +132,7 @@ invCont.addClassification = async function (req, res) {
     })
   }
 }
+
 
 
 
