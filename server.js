@@ -17,6 +17,7 @@ const baseController = require("./controllers/baseController")
 const inventoryRoute = require("./routes/inventoryRoute");
 const accountRoute = require("./routes/accountRoute");
 const bodyParser = require("body-parser")
+const cookieParser = require("cookie-parser");
 const app = express();
 const session = require("express-session");
 const pool = require("./database/");
@@ -46,10 +47,13 @@ app.use(function(req, res, next){
 })
 
 
-
 // 3️⃣ **Body parser** (this is where your line goes)
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+// Cookie parser
+app.use(cookieParser());
+// JWT check middleware
+app.use(utilities.checkJWTToken);
 
 
 /* ***********************

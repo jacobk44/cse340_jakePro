@@ -1,0 +1,21 @@
+<h1 class="logh1">
+  <%=title%>
+</h1>
+
+
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+<%  }) %>
+  </ul>
+<% } %>
+
+
+<div class="flash-home">
+  <%- messages() %>
+</div>
+
+<p>You're logged in</p>
+
+<a href="/account/accountInfo">Edit youtr account info</a>

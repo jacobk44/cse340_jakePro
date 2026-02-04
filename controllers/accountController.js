@@ -1,5 +1,7 @@
 const utilities = require("../utilities/")
 const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 const accountModel = require("../models/account-model")
 
 
@@ -20,64 +22,48 @@ async function buildLogin(req, res, next) {
 
 
 /* ****************************************
-*  Process login attempt
-* *************************************** */
+ *  Process login request
+ * ************************************ */
 async function processLogin(req, res) {
   let nav = await utilities.getNav()
   const { account_email, account_password } = req.body
-
+  const accountData = await accountModel.getAccountByEmail(account_email)
+  if (!accountData) {
+    req.flash("notice", "Please check your credentials and try again.")
+    res.status(400).render("account/login", {
+      title: "Login",
+      nav,
+      errors: null,
+      account_email,
+      description: "login account"
+    })
+    return
+  }
   try {
-    // 1️⃣ Get account object
-    const accountData = await accountModel.getAccountByEmail(account_email)
-
-    if (!accountData) {
-      req.flash("notice", "Account not found.")
+    if (await bcrypt.compare(account_password, accountData.account_password)) {
+      delete accountData.account_password
+      const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
+      if (process.env.NODE_ENV === 'development') {
+        res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
+      } else {
+        res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
+      }
+      return res.redirect("/account/")
+    }
+    else {
+      req.flash("notice", "Please check your credentials and try again.")
       return res.status(400).render("account/login", {
         title: "Login",
         nav,
-        description: "Login to your account",
         errors: null,
         account_email,
+        description: "login account"
       })
     }
-
-    // 2️⃣ Compare bcrypt password
-    const passwordMatch = await bcrypt.compare(
-      account_password,
-      accountData.account_password
-    )
-
-    if (!passwordMatch) {
-      req.flash("notice", "Incorrect password.")
-      return res.status(400).render("account/login", {
-        title: "Login",
-        nav,
-        description: "Login to your account",
-        errors: null,
-        account_email,
-      })
-    }
-
-    // 3️⃣ Success
-    req.session.loggedIn = true
-    req.session.accountData = {
-      account_id: accountData.account_id,
-      account_firstname: accountData.account_firstname,
-      account_lastname: accountData.account_lastname,
-      account_email: accountData.account_email,
-      account_type: accountData.account_type,
-    }
-
-    req.flash("notice", "Login successful! Welcome back.")
-    return res.redirect("/")
-
   } catch (error) {
-    console.error("LOGIN ERROR:", error)
-    req.flash("notice", "Server error during login.")
-    return res.redirect("/account/login")
+    throw new Error('Access Forbidden')
   }
 }
-
 
 
 
@@ -164,4 +150,23 @@ async function registerAccount(req, res) {
 }
 
 
-module.exports = { buildLogin, processLogin, buildRegister, registerAccount }
+/* ****************************************
+ *  Build account management view
+ * ************************************ */
+async function buildAccountManagement(req, res) {
+  let nav = await utilities.getNav()
+
+  
+  req.flash("notice", `Welcome back!`)
+
+
+  res.render("account/accountManagement", {
+    title: "Account Management",
+    nav,
+    errors: null,
+    description: "Account Management",
+  })
+}
+
+
+module.exports = { buildLogin, processLogin, buildRegister, registerAccount, buildAccountManagement }

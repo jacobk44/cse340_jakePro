@@ -23,6 +23,8 @@ router.post(
   utilities.handleErrors(accountController.processLogin)
 )
 
+
+
 /***********************
  Registration View
 ************************/
@@ -36,7 +38,7 @@ router.post("/register",
 )
 
 
-
+router.get("/", utilities.handleErrors(accountController.buildAccountManagement));
 
 
 

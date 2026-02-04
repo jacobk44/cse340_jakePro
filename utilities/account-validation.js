@@ -35,12 +35,12 @@ validate.registrationRules = () => {
       .withMessage("A valid email is required.")
       .custom(async (account_email) => {
         const emailExists = await accountModel.checkExistingEmail(account_email)
-        if (emailExists){
+        if (emailExists) {
           throw new Error("Email exists. Please log in or use different email")
         }
       })
       .normalizeEmail()
-      ,
+    ,
 
     // password is required and must be strong password
     body("account_password")
@@ -111,7 +111,7 @@ validate.checkRegData = async (req, res, next) => {
 * Check login data and return errors or continue
 ****************************** */
 validate.checkLoginData = async (req, res, next) => {
-  const { account_email } = req.body
+  const account_email = req.body?.account_email || ""
   const errors = validationResult(req)
 
   if (!errors.isEmpty()) {
@@ -127,6 +127,7 @@ validate.checkLoginData = async (req, res, next) => {
 
   next()
 }
+
 
 
 module.exports = validate
