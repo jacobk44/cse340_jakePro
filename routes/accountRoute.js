@@ -38,7 +38,7 @@ router.post("/register",
 )
 
 
-router.get("/", utilities.handleErrors(accountController.buildAccountManagement));
+router.get("/",utilities.checkLogin, utilities.handleErrors(accountController.buildAccountManagement));
 
 
 
