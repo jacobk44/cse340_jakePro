@@ -56,7 +56,13 @@ router.get(
 
 
 
-
+/* ***************************
+ *  Deliver inventory delete view
+ * ************************** */
+router.get(
+  "/delete/:inventory_id",
+  utilities.handleErrors(invController.buildDeleteInventoryView)
+)
 
 
 
@@ -80,9 +86,15 @@ router.post(
 
 
 
-router.post("/update/", regValidate.checkUpdateData, regValidate.addInventoryRules(), utilities.handleErrors(invController.updateInventory))
+router.post("/update/", regValidate.checkUpdateData,
+  regValidate.addInventoryRules(),
+  utilities.handleErrors(invController.updateInventory))
 
 
+
+router.post("/delete/", regValidate.checkUpdateData,
+  regValidate.addInventoryRules(),
+  utilities.handleErrors(invController.deleteInventory))
 
 
 module.exports = router;
