@@ -74,7 +74,7 @@ validate.addInventoryRules = () => {
 
 
 
-
+// Check inventory data
 validate.checkInventoryData = async (req, res, next) => {
   const errors = validationResult(req);
 
@@ -90,6 +90,52 @@ validate.checkInventoryData = async (req, res, next) => {
       errors,
       message: req.flash("notice"),
       ...req.body // keeps all inputs sticky
+    });
+  }
+
+  next();
+};
+
+
+// errors will be directed back to the edit inventory view
+validate.checkUpdateData = async (req, res, next) => {
+  const errors = validationResult(req);
+
+  const {
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+    classification_id,
+  } = req.body;
+
+  if (!errors.isEmpty()) {
+    const nav = await utilities.getNav();
+    const classificationSelect =
+      await utilities.buildClassificationList(classification_id);
+
+    return res.render("inventory/edit-inventory", {
+      title: `Edit ${inv_make} ${inv_model}`,
+      nav,
+      errors,
+      classificationSelect,
+      inv_id,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+      classification_id,
     });
   }
 

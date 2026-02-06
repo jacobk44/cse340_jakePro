@@ -1,4 +1,23 @@
-<form action="/inv/add-inventory" method="post" id="The-inventory-form" novalidate>
+
+<h1 class="logh1">
+  <%=title%>
+</h1>
+
+<div class="flash-home">
+  <%- messages() %>
+</div>
+
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+<%  }) %>
+  </ul>
+<% } %>
+
+
+
+<form action="/inv/update" method="post" id="The-inventory-form" novalidate>
   <!-- Classification Select -->
   <label for="classificationList">Classification</label>
   <%- classificationSelect %>
@@ -35,4 +54,5 @@
 
     <button type="submit">Add Vehicle</button>
 
+    <input type="hidden" name="inv_id"<% if(locals.inv_id) { %> value="<%= locals.inv_id %>"<% } %>>
 </form>

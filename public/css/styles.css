@@ -361,7 +361,7 @@ input:required:valid {
 
 
 /* Form container */
-#add-inventory-form {
+#The-inventory-form {
   max-width: 600px;       /* Limit form width */
   margin: 30px auto;      /* Center the form */
   padding: 20px;
@@ -373,7 +373,7 @@ input:required:valid {
 }
 
 /* Each label/input pair */
-#add-inventory-form label {
+#The-inventory-form label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
@@ -381,9 +381,9 @@ input:required:valid {
 }
 
 /* Inputs, textarea, select */
-#add-inventory-form input,
-#add-inventory-form textarea,
-#add-inventory-form select {
+#The-inventory-form input,
+#The-inventory-form textarea,
+#The-inventory-form select {
   width: 100%;            /* Fill form width */
   padding: 8px 10px;
   margin-bottom: 15px;    /* Space below each field */
@@ -394,13 +394,13 @@ input:required:valid {
 }
 
 /* Textarea specific */
-#add-inventory-form textarea {
+#The-inventory-form textarea {
   height: 80px;
   resize: vertical;
 }
 
 /* Submit button */
-#add-inventory-form button {
+#The-inventory-form button {
   display: block;
   width: 100%;
   padding: 10px;
@@ -413,7 +413,7 @@ input:required:valid {
   transition: 0.3s;
 }
 
-#add-inventory-form button:hover {
+#The-inventory-form button:hover {
   background-color: #0056b3;
 }
 

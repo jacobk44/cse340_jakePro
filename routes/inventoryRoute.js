@@ -27,6 +27,41 @@ router.get(
   utilities.handleErrors(invController.buildAddClassification)
 )
 
+
+// Deliver add inventory view
+router.get(
+  "/add-inventory",
+  utilities.handleErrors(invController.buildAddInventory)
+);
+
+
+
+// Route for Inventory Management View
+router.get(
+  "/",
+  utilities.handleErrors(invController.buildManagement)
+)
+
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON)
+)
+
+
+/* ***************************
+ *  Deliver inventory edit view
+ * ************************** */
+router.get(
+  "/edit/:inventory_id",
+  utilities.handleErrors(invController.buildEditInventoryView)
+)
+
+
+
+
+
+
+
+
+
 router.post(
   "/add-classification",
   regValidate.classificationRules(),
@@ -34,12 +69,6 @@ router.post(
   utilities.handleErrors(invController.addClassification)
 )
 
-
-// Deliver add inventory view
-router.get(
-  "/add-inventory",
-  utilities.handleErrors(invController.buildAddInventory)
-);
 
 // Process add inventory form
 router.post(
@@ -50,11 +79,8 @@ router.post(
 );
 
 
-// Route for Inventory Management View
-router.get(
-  "/",
-  utilities.handleErrors(invController.buildManagement)
-)
+
+router.post("/update/", regValidate.checkUpdateData, regValidate.addInventoryRules(), utilities.handleErrors(invController.updateInventory))
 
 
 
