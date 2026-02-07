@@ -10,7 +10,7 @@ const accountModel = require("../models/account-model")
 *  Deliver login view
 * *************************************** */
 async function buildLogin(req, res, next) {
-  let nav = await utilities.getNav()
+  let nav = await utilities.getNav(req)
   res.render("account/login", {
     title: "Login",
     nav,
@@ -25,7 +25,7 @@ async function buildLogin(req, res, next) {
  *  Process login request
  * ************************************ */
 async function processLogin(req, res) {
-  let nav = await utilities.getNav()
+  let nav = await utilities.getNav(req)
   const { account_email, account_password } = req.body
   const accountData = await accountModel.getAccountByEmail(account_email)
   if (!accountData) {
@@ -42,13 +42,23 @@ async function processLogin(req, res) {
   try {
     if (await bcrypt.compare(account_password, accountData.account_password)) {
       delete accountData.account_password
+      // 🔥 ADD THESE TWO LINES
+      req.session.loggedin = true
+      req.session.accountData = accountData
+      // ✅ SUCCESS FLASH (THIS FIXES IT)
+      req.flash("notice", `Welcome back, ${accountData.account_firstname}!`)
       const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
       if (process.env.NODE_ENV === 'development') {
         res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
       } else {
         res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
       }
-      return res.redirect("/account/")
+      // Redirect based on account type
+      if (accountData.account_type === "Admin" || accountData.account_type === "Employee") {
+        return res.redirect("/inv/")   // go to Inventory Management
+      } else {
+        return res.redirect("/account/") // normal client
+      }
     }
     else {
       req.flash("notice", "Please check your credentials and try again.")
@@ -75,7 +85,7 @@ async function processLogin(req, res) {
 *  Deliver registration view
 * *************************************** */
 async function buildRegister(req, res, next) {
-  let nav = await utilities.getNav()
+  let nav = await utilities.getNav(req)
   res.render("account/register", {
     title: "Registration",
     nav,
@@ -94,7 +104,7 @@ async function buildRegister(req, res, next) {
 *  Process registration
 * *************************************** */
 async function registerAccount(req, res) {
-  let nav = await utilities.getNav()
+  let nav = await utilities.getNav(req)
   const { account_firstname, account_lastname, account_email, account_password } = req.body
 
   // Hash the password before storing
@@ -154,19 +164,22 @@ async function registerAccount(req, res) {
  *  Build account management view
  * ************************************ */
 async function buildAccountManagement(req, res) {
-  let nav = await utilities.getNav()
-
-  
-  req.flash("notice", `Welcome back!`)
-
+  let nav = await utilities.getNav(req)
 
   res.render("account/accountManagement", {
     title: "Account Management",
     nav,
     errors: null,
     description: "Account Management",
+    accountData: req.session.accountData
   })
 }
 
+async function accountLogout(req, res) {
+  req.session.destroy(() => {
+    res.clearCookie("jwt")
+    res.redirect("/")
+  })
+}
 
-module.exports = { buildLogin, processLogin, buildRegister, registerAccount, buildAccountManagement }
+module.exports = { buildLogin, processLogin, buildRegister, registerAccount,accountLogout, buildAccountManagement }

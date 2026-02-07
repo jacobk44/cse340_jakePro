@@ -24,6 +24,7 @@ router.get("/trigger-error", invController.triggerError)
 
 router.get(
   "/add-classification",
+  utilities.checkAdmin,
   utilities.handleErrors(invController.buildAddClassification)
 )
 
@@ -31,6 +32,7 @@ router.get(
 // Deliver add inventory view
 router.get(
   "/add-inventory",
+  utilities.checkAdmin,
   utilities.handleErrors(invController.buildAddInventory)
 );
 
@@ -39,10 +41,11 @@ router.get(
 // Route for Inventory Management View
 router.get(
   "/",
+  utilities.checkAdmin,
   utilities.handleErrors(invController.buildManagement)
 )
 
-router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON)
+router.get("/getInventory/:classification_id",utilities.checkAdmin, utilities.handleErrors(invController.getInventoryJSON)
 )
 
 
@@ -51,6 +54,7 @@ router.get("/getInventory/:classification_id", utilities.handleErrors(invControl
  * ************************** */
 router.get(
   "/edit/:inventory_id",
+  utilities.checkAdmin,
   utilities.handleErrors(invController.buildEditInventoryView)
 )
 
@@ -61,6 +65,7 @@ router.get(
  * ************************** */
 router.get(
   "/delete/:inventory_id",
+  utilities.checkAdmin,
   utilities.handleErrors(invController.buildDeleteInventoryView)
 )
 
@@ -72,6 +77,7 @@ router.post(
   "/add-classification",
   regValidate.classificationRules(),
   regValidate.checkClassificationData,
+  utilities.checkAdmin,
   utilities.handleErrors(invController.addClassification)
 )
 
@@ -81,12 +87,14 @@ router.post(
   "/add-inventory",
   regValidate.addInventoryRules(),  // server-side validation middleware
   regValidate.checkInventoryData,   // check for validation errors
+  utilities.checkAdmin,
   utilities.handleErrors(invController.addInventory) // insert into DB
 );
 
 
 
 router.post("/update/", regValidate.checkUpdateData,
+  utilities.checkAdmin,
   regValidate.addInventoryRules(),
   utilities.handleErrors(invController.updateInventory))
 
@@ -94,6 +102,7 @@ router.post("/update/", regValidate.checkUpdateData,
 
 router.post("/delete/", regValidate.checkUpdateData,
   regValidate.addInventoryRules(),
+  utilities.checkAdmin,
   utilities.handleErrors(invController.deleteInventory))
 
 

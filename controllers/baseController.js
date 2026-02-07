@@ -7,7 +7,7 @@ baseController.buildHome = async function (req, res) {
     req.session.welcomed = true
     return res.redirect("/") // trigger flash read
   }
-  const nav = await utilities.getNav()
+  const nav = await utilities.getNav(req)
   res.render("index", { title: "Home", nav, description: "Welcome to our home page!" })
 }
 

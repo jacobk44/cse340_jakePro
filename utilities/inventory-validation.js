@@ -16,7 +16,7 @@ validate.classificationRules = () => {
 validate.checkClassificationData = async (req, res, next) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    let nav = await utilities.getNav()
+    let nav = await utilities.getNav(req)
     return res.render("inventory/add-classification", {
       title: "Add Classification",
       nav,
@@ -80,7 +80,7 @@ validate.checkInventoryData = async (req, res, next) => {
 
   if (!errors.isEmpty()) {
     const classificationSelect = await utilities.buildClassificationList();
-    const nav = await utilities.getNav();
+    const nav = await utilities.getNav(req);
 
     return res.render("inventory/add-inventory", {
       title: "Add New Vehicle",
@@ -116,7 +116,7 @@ validate.checkUpdateData = async (req, res, next) => {
   } = req.body;
 
   if (!errors.isEmpty()) {
-    const nav = await utilities.getNav();
+    const nav = await utilities.getNav(req);
     const classificationSelect =
       await utilities.buildClassificationList(classification_id);
 

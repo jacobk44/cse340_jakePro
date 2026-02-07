@@ -1,7 +1,15 @@
 <header class="site-header">
     <div class="header-inner">
         <h1 class="site-title">CSE MOTORS</h1>
-        <a href="/account/login" class="account-link">MY ACCOUNT</a>
+        
+        <% if (user && user.loggedin) { %>
+          <div class="account-links">
+            <a href="/account/" class="welcome-link">Welcome <%= user.account_firstname %></a>
+            <a href="/account/logout" class="logout-link">Logout</a>
+          </div>
+        <% } else { %>
+            <a href="/account/login" class="account-link">MY ACCOUNT</a>
+        <% } %>
         <button id="myButton" aria-label="Open navigation menu"></button>
     </div>
 </header>

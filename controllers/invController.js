@@ -19,7 +19,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
     const classificationData = await invModel.getClassificationById(classification_id)
     let className = classificationData ? classificationData.classification_name : "Unknown Classification"
 
-    const nav = await utilities.getNav()
+    const nav = await utilities.getNav(req)
 
     res.render("./inventory/classification", {
       title: className + " vehicles",
@@ -44,7 +44,7 @@ invCont.buildByVehicleId = async function (req, res, next) {
   const inv_id = req.params.inv_Id
   const data = await invModel.getInventoryById(inv_id)
   const detail = await utilities.buildVehicleDetail(data)
-  let nav = await utilities.getNav()
+  let nav = await utilities.getNav(req)
 
   res.render("./inventory/detail", {
     title: `${data.inv_make} ${data.inv_model}`,
@@ -71,7 +71,7 @@ invCont.triggerError = async function (req, res, next) {
 
 invCont.buildManagement = async function (req, res, next) {
   try {
-    const nav = await utilities.getNav()
+    const nav = await utilities.getNav(req)
     const classificationSelect = await utilities.buildClassificationList()
     res.render("inventory/management", {
       title: "Inventory Management",
@@ -92,7 +92,7 @@ invCont.buildManagement = async function (req, res, next) {
  *  Build add classification view
  * ************************** */
 invCont.buildAddClassification = async function (req, res) {
-  let nav = await utilities.getNav()
+  let nav = await utilities.getNav(req)
   res.render("inventory/add-classification", {
     title: "Add Classification",
     nav,
@@ -108,7 +108,7 @@ invCont.buildAddClassification = async function (req, res) {
  *  Process Add Classification
  * *************************************** */
 invCont.addClassification = async function (req, res) {
-  let nav = await utilities.getNav()
+  let nav = await utilities.getNav(req)
   const { classification_name } = req.body
 
   try {
@@ -144,7 +144,7 @@ invCont.buildAddInventory = async function (req, res, next) {
     const classificationSelect = await utilities.buildClassificationList();
 
     // 2️⃣ Build navigation
-    const nav = await utilities.getNav();
+    const nav = await utilities.getNav(req);
 
     // 3️⃣ Render the view
     res.render("inventory/add-inventory", {
@@ -175,7 +175,7 @@ invCont.buildAddInventory = async function (req, res, next) {
  *  Process Add Inventory
  * *************************************** */
 invCont.addInventory = async function (req, res) {
-  const nav = await utilities.getNav()
+  const nav = await utilities.getNav(req)
 
   // Destructure all form fields
   const {
@@ -270,7 +270,7 @@ invCont.buildEditInventoryView = async function (req, res, next) {
     // Get inventory ID from URL params
     const inv_id = parseInt(req.params.inventory_id)
     // 2️⃣ Build navigation
-    const nav = await utilities.getNav();
+    const nav = await utilities.getNav(req);
     // Get inventory data for the given ID
     const itemData = await invModel.getInventoryById(inv_id)
     // 1️⃣ Build classification dropdown
@@ -309,7 +309,7 @@ invCont.buildEditInventoryView = async function (req, res, next) {
  *  Update Inventory Data
  * ************************** */
 invCont.updateInventory = async function (req, res, next) {
-  let nav = await utilities.getNav()
+  let nav = await utilities.getNav(req)
   const {
     inv_id,
     inv_make,
@@ -374,7 +374,7 @@ invCont.updateInventory = async function (req, res, next) {
 invCont.buildDeleteInventoryView = async function (req, res, next) {
   try {
     const inv_id = parseInt(req.params.inventory_id)
-    const nav = await utilities.getNav()
+    const nav = await utilities.getNav(req)
     const itemData = await invModel.getInventoryById(inv_id)
 
     if (!itemData) {
@@ -404,9 +404,6 @@ invCont.buildDeleteInventoryView = async function (req, res, next) {
 
 
 
-/* ***************************
- *  Update Inventory Data
- * ************************** */
 /* ***************************
  *  Delete inventory item
  * ************************** */

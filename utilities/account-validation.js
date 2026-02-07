@@ -92,7 +92,7 @@ validate.checkRegData = async (req, res, next) => {
   const errors = validationResult(req)
 
   if (!errors.isEmpty()) {
-    const nav = await utilities.getNav()
+    const nav = await utilities.getNav(req)
     return res.render("account/register", {
       title: "Register",
       description: "register",
@@ -115,7 +115,7 @@ validate.checkLoginData = async (req, res, next) => {
   const errors = validationResult(req)
 
   if (!errors.isEmpty()) {
-    const nav = await utilities.getNav()
+    const nav = await utilities.getNav(req)
     return res.render("account/login", {
       title: "Login",
       description: "login",

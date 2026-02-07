@@ -76,13 +76,18 @@ app.use(express.static(path.join(__dirname, "public")));
  * Makes `user` available in ALL EJS files
  *************************/
 app.use((req, res, next) => {
-  // simulate logged-out user
-  req.user = null;
-
-  // expose to EJS templates
-  res.locals.user = req.user;
-  next();
-});
+  if (req.session && req.session.loggedin && req.session.accountData) {
+    res.locals.user = {
+      loggedin: true,
+      account_firstname: req.session.accountData.account_firstname,
+      account_type: req.session.accountData.account_type,
+      account_id: req.session.accountData.account_id
+    }
+  } else {
+    res.locals.user = null
+  }
+  next()
+})
 
 /* ***********************
  * Routes
@@ -107,7 +112,7 @@ app.use(async (req, res, next) => {
 * Place after all other middleware
 *************************/
 app.use(async (err, req, res, next) => {
-  let nav = await utilities.getNav()
+  let nav = await utilities.getNav(req)
   console.error(`Error at: "${req.originalUrl}": ${err.message}`)
   if(err.status == 404){ message = err.message} else {message = 'Oh no! There was a crash. Maybe try a different route?'}
   res.render("errors/error", {

@@ -15,6 +15,8 @@ const utilities = require("../utilities");
  **************************/
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
 
+
+
 // Process the login attempt
 router.post(
   "/login",
@@ -40,7 +42,13 @@ router.post("/register",
 
 router.get("/",utilities.checkLogin, utilities.handleErrors(accountController.buildAccountManagement));
 
-
+/**************************
+ * Logout
+ **************************/
+router.get(
+  "/logout",
+  utilities.handleErrors(accountController.accountLogout)
+);
 
 
 module.exports = router;
