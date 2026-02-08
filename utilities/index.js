@@ -147,12 +147,11 @@ Util.checkJWTToken = (req, res, next) => {
  *  Check Login
  * ************************************ */
 Util.checkLogin = (req, res, next) => {
-  if (req.session && req.session.loggedin) { // ✅ check session
-    next()
-  } else {
-    req.flash("notice", "Please log in.")
-    return res.redirect("/account/login")
+  if (res.locals.accountData) { // ✅ check session
+    return next()
   }
+  req.flash("notice", "Please log in.")
+  return res.redirect("/account/login")
 }
 
 

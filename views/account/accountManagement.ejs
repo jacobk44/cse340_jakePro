@@ -5,24 +5,43 @@
 
 <% if (errors) { %>
   <ul class="notice">
- <% errors.array().forEach(error => { %>
-    <li><%= error.msg %></li>
-<%  }) %>
+    <% errors.array().forEach(error=> { %>
+      <li>
+        <%= error.msg %>
+      </li>
+      <% }) %>
   </ul>
-<% } %>
+  <% } %>
 
 
-<div class="flash-home">
-  <%- messages() %>
-</div>
+    <div class="flash-home">
+      <%- messages() %>
+    </div>
 
-<p>You're logged in</p>
 
-<!-- Update Account Information link (all users) -->
+
+<!-- Greeting by first name -->
+<h2>
+  Welcome <%= accountData.account_firstname %>
+</h2>
+
+<p>You're logged in as: <strong>
+    <%= accountData.account_firstname %> <%= accountData.account_lastname %>
+  </strong></p>
+<p>Email: <strong>
+    <%= accountData.account_email %>
+  </strong></p>
+<p>Account Type: <strong>
+    <%= accountData.account_type %>
+  </strong></p>
+
+<!-- Update Account Information link (for all users) -->
 <p>
-  <a href="/account/update/<%= accountData.account_id %>">
-    Update Account Information
-  </a>
+  <a href="/account/update">Update Account Information</a>
 </p>
 
 
+<!-- Optional: Logout -->
+<p>
+  <a href="/account/logout">Logout</a>
+</p>

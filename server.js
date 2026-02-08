@@ -21,7 +21,8 @@ const cookieParser = require("cookie-parser");
 const app = express();
 const session = require("express-session");
 const pool = require("./database/");
-
+const jwt = require("jsonwebtoken");
+const accountModel = require("./models/account-model");
 
 
 /* ***********************
@@ -56,6 +57,25 @@ app.use(cookieParser());
 app.use(utilities.checkJWTToken);
 
 
+app.use(async (req, res, next) => {
+  try {
+    const token = req.cookies.jwt;
+    if (!token) return next(); // not logged in
+
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    
+    // Fetch full account info from DB
+    const accountData = await accountModel.getAccountById(decoded.account_id);
+    
+    res.locals.accountData = accountData; // ✅ EJS can now access this
+    res.locals.account = decoded;         // optional for logic
+  } catch (err) {
+    console.error("JWT middleware error:", err.message);
+  }
+  next();
+});
+
+
 /* ***********************
  * View Engine and Template
  *************************/
@@ -76,19 +96,20 @@ app.use(express.static(path.join(__dirname, "public")));
  * Makes `user` available in ALL EJS files
  *************************/
 app.use((req, res, next) => {
-  if (req.session && req.session.loggedin && req.session.accountData) {
+  if (res.locals.accountData) {
     res.locals.user = {
       loggedin: true,
-      account_firstname: req.session.accountData.account_firstname,
-      account_type: req.session.accountData.account_type,
-      account_id: req.session.accountData.account_id
+      account_firstname: res.locals.accountData.account_firstname,
+      account_type: res.locals.accountData.account_type,
+      account_id: res.locals.accountData.account_id
     }
   } else {
-    res.locals.user = null
+    res.locals.user = {
+      loggedin: false
+    }
   }
   next()
 })
-
 /* ***********************
  * Routes
  *************************/

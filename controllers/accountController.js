@@ -41,10 +41,8 @@ async function processLogin(req, res) {
   }
   try {
     if (await bcrypt.compare(account_password, accountData.account_password)) {
+      // Remove password from account data before storing in session
       delete accountData.account_password
-      // 🔥 ADD THESE TWO LINES
-      req.session.loggedin = true
-      req.session.accountData = accountData
       // ✅ SUCCESS FLASH (THIS FIXES IT)
       req.flash("notice", `Welcome back, ${accountData.account_firstname}!`)
       const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
@@ -96,6 +94,7 @@ async function buildRegister(req, res, next) {
     account_email: ""
   })
 }
+
 
 
 
@@ -171,10 +170,12 @@ async function buildAccountManagement(req, res) {
     nav,
     errors: null,
     description: "Account Management",
-    accountData: req.session.accountData
   })
 }
 
+
+
+// Logout account
 async function accountLogout(req, res) {
   req.session.destroy(() => {
     res.clearCookie("jwt")
@@ -182,4 +183,165 @@ async function accountLogout(req, res) {
   })
 }
 
-module.exports = { buildLogin, processLogin, buildRegister, registerAccount,accountLogout, buildAccountManagement }
+
+
+
+// New function to build the update account view`
+async function buildUpdateAccount(req, res) {
+  let nav = await utilities.getNav(req)
+
+  res.render("account/account-update", {
+    title: "Update Account",
+    nav,
+    errors: null,
+    description: "Update your account info",
+    accountData: res.locals.accountData, // prefill form
+    oldInput: null // no sticky input on initial load
+  })
+}
+
+
+// New function to handle account updates
+async function updateAccount(req, res) {
+  let nav = await utilities.getNav(req);
+
+  // ✅ Use account ID from JWT, not from form
+  const account_id = res.locals.account.account_id;
+
+  const { account_firstname, account_lastname, account_email } = req.body;
+
+  // Server-side validation
+  const errors = [];
+  if (!account_firstname || account_firstname.trim() === "") errors.push({ msg: "First name is required." });
+  if (!account_lastname || account_lastname.trim() === "") errors.push({ msg: "Last name is required." });
+  if (!account_email || account_email.trim() === "") {
+    errors.push({ msg: "Email is required." });
+  } else {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(account_email)) errors.push({ msg: "Invalid email format." });
+  }
+
+  // If validation errors exist, re-render form with sticky inputs
+  if (errors.length > 0) {
+    return res.render("account/account-update", {
+      title: "Update Account",
+      nav,
+      errors,
+      description: "Update your account info",
+      accountData: res.locals.accountData,
+      oldInput: { account_firstname, account_lastname, account_email }
+    });
+  }
+
+  // No errors: update database
+  try {
+    const updateResult = await accountModel.updateAccount(account_id, account_firstname, account_lastname, account_email);
+
+    if (updateResult.rowCount === 1) {
+      // Update JWT cookie with new account data
+      const updatedData = {
+        account_id,
+        account_firstname,
+        account_lastname,
+        account_email,
+        account_type: res.locals.accountData.account_type
+      };
+
+      const accessToken = jwt.sign(updatedData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1h" });
+      res.cookie("jwt", accessToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV !== "development",
+        maxAge: 3600000
+      });
+
+      req.flash("notice", "Account updated successfully!");
+      return res.render("account/account-update", {
+        title: "Update Account",
+        nav,
+        errors: null,
+        description: "Update your account info",
+        accountData: updatedData,
+        oldInput: null
+      });
+    } else {
+      req.flash("notice", "Update failed, please try again.");
+      return res.render("account/account-update", {
+        title: "Update Account",
+        nav,
+        errors: null,
+        description: "Update your account info",
+        accountData: res.locals.accountData,
+        oldInput: { account_firstname, account_lastname, account_email }
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    req.flash("notice", "Something went wrong.");
+    return res.render("account/account-update", {
+      title: "Update Account",
+      nav,
+      errors: null,
+      description: "Update your account info",
+      accountData: res.locals.accountData,
+      oldInput: { account_firstname, account_lastname, account_email }
+    });
+  }
+}
+
+
+
+// New function to handle password update
+async function updatePassword(req, res) {
+  let nav = await utilities.getNav(req);
+
+  // ✅ Use account ID from JWT
+  const account_id = res.locals.account.account_id;
+
+  const { account_password, account_password_confirm } = req.body;
+
+  // Check password match
+  if (account_password !== account_password_confirm) {
+    req.flash("notice", "Passwords do not match.");
+    return res.render("account/account-update", {
+      title: "Change Password",
+      nav,
+      accountData: res.locals.accountData,
+      errors: null,
+      description: "Change your password",
+      oldInput: null
+    });
+  }
+
+  try {
+    const hashedPassword = await bcrypt.hash(account_password, 10);
+    const result = await accountModel.updatePassword(account_id, hashedPassword);
+
+    if (result.rowCount === 1) {
+      req.flash("notice", "Password updated successfully!");
+    } else {
+      req.flash("notice", "Password update failed.");
+    }
+
+    return res.render("account/account-update", {
+      title: "Change Password",
+      nav,
+      accountData: res.locals.accountData,
+      errors: null,
+      description: "Change your password",
+      oldInput: null
+    });
+  } catch (error) {
+    console.error(error);
+    req.flash("notice", "Something went wrong.");
+    return res.render("account/account-update", {
+      title: "Change Password",
+      nav,
+      accountData: res.locals.accountData,
+      errors: null,
+      description: "Change your password",
+      oldInput: null
+    });
+  }
+}
+
+module.exports = { buildLogin, processLogin, buildRegister, registerAccount, accountLogout,buildUpdateAccount, buildAccountManagement, updateAccount, updatePassword }
