@@ -36,12 +36,15 @@
   </strong></p>
 
 <!-- Update Account Information link (for all users) -->
+<h2>Account Info</h2>
 <p>
-  <a href="/account/update">Update Account Information</a>
+  <a href="/account/update">Edit Account Information</a>
 </p>
 
-
-<!-- Optional: Logout -->
-<p>
-  <a href="/account/logout">Logout</a>
-</p>
+<h2>Inventory management</h2>
+<!-- Admin & Employee ONLY -->
+<% if (accountData.account_type === "Employee") { %>
+  <p>
+    <a href="/inv/">Manage Inventory</a>
+  </p>
+<% } %>

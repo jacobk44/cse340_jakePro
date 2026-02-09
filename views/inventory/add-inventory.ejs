@@ -1,3 +1,20 @@
+<h1 class="logh1">
+  <%=title%>
+</h1>
+
+<div class="flash-home">
+  <%- messages() %>
+</div>
+
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+<%  }) %>
+  </ul>
+<% } %>
+
+
 <form action="/inv/add-inventory" method="post" id="The-inventory-form" novalidate>
   <!-- Classification Select -->
   <label for="classificationList">Classification</label>

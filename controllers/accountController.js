@@ -52,7 +52,7 @@ async function processLogin(req, res) {
         res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
       }
       // Redirect based on account type
-      if (accountData.account_type === "Admin" || accountData.account_type === "Employee") {
+      if (accountData.account_type === "Admin") {
         return res.redirect("/inv/")   // go to Inventory Management
       } else {
         return res.redirect("/account/") // normal client
@@ -294,10 +294,23 @@ async function updateAccount(req, res) {
 async function updatePassword(req, res) {
   let nav = await utilities.getNav(req);
 
-  // ✅ Use account ID from JWT
+  // Use account ID from JWT
   const account_id = res.locals.account.account_id;
 
   const { account_password, account_password_confirm } = req.body;
+
+  // Ensure both fields exist
+  if (!account_password || !account_password_confirm) {
+    req.flash("notice", "Both password fields are required.");
+    return res.render("account/account-update", {
+      title: "Change Password",
+      nav,
+      accountData: res.locals.accountData,
+      errors: null,
+      description: "Change your password",
+      oldInput: null
+    });
+  }
 
   // Check password match
   if (account_password !== account_password_confirm) {
@@ -344,4 +357,4 @@ async function updatePassword(req, res) {
   }
 }
 
-module.exports = { buildLogin, processLogin, buildRegister, registerAccount, accountLogout,buildUpdateAccount, buildAccountManagement, updateAccount, updatePassword }
+module.exports = { buildLogin, processLogin, buildRegister, registerAccount, accountLogout, buildUpdateAccount, buildAccountManagement, updateAccount, updatePassword }

@@ -46,6 +46,8 @@ async function checkExistingEmail(account_email){
 
 
 
+
+
 /* *****************************
 *   Update account info
 * *************************** */
@@ -64,6 +66,8 @@ async function updateAccount(account_id, account_firstname, account_lastname, ac
   }
 }
 
+
+
 /* *****************************
 *   Update account password
 * *************************** */
@@ -80,6 +84,8 @@ async function updatePassword(account_id, hashedPassword) {
   }
 }
 
+
+
 // Get account data by ID
 async function getAccountById(account_id) {
   try {
@@ -95,7 +101,16 @@ async function getAccountById(account_id) {
 }
 
 
+async function updatePassword(account_id, hashedPassword) {
+  const sql = `
+    UPDATE account
+    SET account_password = $1
+    WHERE account_id = $2
+  `;
+  return pool.query(sql, [hashedPassword, account_id]);
+}
 
 
 
-module.exports = {getAccountById, registerAccount, checkExistingEmail, getAccountByEmail, updateAccount, updatePassword}
+
+module.exports = {updatePassword,getAccountById, registerAccount, checkExistingEmail, getAccountByEmail, updateAccount, updatePassword}

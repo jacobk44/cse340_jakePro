@@ -13,10 +13,13 @@
   </ul>
 <% } %>
 
+
+
+
 <!-- =========================
      Account Update Form
 ========================= -->
-<form action="/account/update" method="post">
+<form action="/account/update" method="post" id="The-inventory-form">
   <fieldset>
     <legend>Account Update</legend>
 
@@ -44,20 +47,23 @@
 <!-- =========================
      Change Password Form
 ========================= -->
-<form action="/account/update-password" method="post">
+<form action="/account/update-password" method="post" id="The-inventory-form">
   <fieldset>
     <legend>Change Password</legend>
 
     <!-- Hidden account ID (optional) -->
     <input type="hidden" name="account_id" value="<%= accountData?.account_id || '' %>">
 
-    <label for="account_password">New Password</label>
-    <input type="password" id="account_password" name="account_password" required
+    <label for="password">New Password</label>
+    <input type="password" id="password" name="account_password" required
       pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
       placeholder="At least 12 chars, 1 uppercase, 1 lowercase, 1 number, 1 special">
-    <span class="password-hint">
-      Passwords must be at least 12 characters and contain a number, capital letter, and special character.
-    </span>
+
+    <label for="password">Confirm Password</label>
+    <input type="password" id="password" name="account_password_confirm" required placeholder="Re-enter your new password"
+      pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
+
+    <span id="pswdBtn" style="cursor:pointer;">Show Password</span>
 
     <button type="submit">Change Password</button>
   </fieldset>
