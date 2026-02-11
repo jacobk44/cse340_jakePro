@@ -46,8 +46,50 @@ When you installed Git and cloned the remote repository in week 1, you should ha
 2. Add "/filename.html" to the end of the URL (replacing filename with the name of the file you moved to the public folder).
 3. You should see that page in the browser.
 
-
-
-
 render link 
 https://cse340-jakepro.onrender.com/
+
+
+
+Final Enhancement
+
+Submission Comment
+For this enhancement, I implemented a complete shopping cart system with guest and logged-in user support.
+What I Added
+•	Created a cart database table with:
+o	account_id for logged-in users
+o	session_key (UUID) for guest users
+o	Unique constraints to prevent duplicate items
+•	Built a Cart Model with:
+o	addToCart()
+o	getCart()
+o	removeFromCart()
+o	getCartCount()
+o	mergeGuestCartToUser() (merges guest cart into user cart upon login)
+•	Created Cart Controller with:
+o	Add item to cart (AJAX, no redirect)
+o	View cart page
+o	Remove item from cart
+o	Cart count middleware for navbar badge
+•	Added cart icon in the header with a superscript item counter.
+•	Implemented guest cart functionality using UUID stored in session.
+•	Implemented automatic cart merging when a guest logs in.
+•	Updated EJS views to display cart items including image, price, quantity, and remove button.
+•	Cart items persist after login (guest → user merge).
+•	Proper error handling added to avoid crashes during login/cart merge.
+________________________________________
+How to Navigate and Test
+1.	Navigate to any vehicle detail page.
+2.	Click Add to Cart.
+3.	The cart icon in the header updates with a superscript count.
+4.	Click the cart icon to view items.
+5.	Add items as a guest.
+6.	Log in.
+7.	After login, the cart still contains the previously added items.
+8.	You can remove items from the cart page.
+Admins are redirected to /inv/ after login.
+Clients are redirected to /account/ account-management  
+Employee are redirected to account/account-management that have inventory management link there
+
+
+	
