@@ -3,7 +3,7 @@ const router = express.Router()
 const cartController = require("../controllers/cartController")
 const utilities = require("../utilities/")
 
-router.get("/", cartController.viewCart)
+router.get("/", utilities.handleErrors(cartController.viewCart))
 
 router.post("/add", utilities.handleErrors(cartController.addItem))
 
