@@ -41,9 +41,10 @@
   <a href="/account/update">Edit Account Information</a>
 </p>
 
-<h2>Inventory management</h2>
 <!-- Admin & Employee ONLY -->
 <% if (accountData.account_type === "Employee") { %>
+  <h2>Inventory management</h2>
+
   <p>
     <a href="/inv/">Manage Inventory</a>
   </p>

@@ -27,16 +27,49 @@ body {
   color: #050404;
 }
 
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
 .site-title {
   font-size: 1.5rem;
   font-weight: bold;
+  letter-spacing: 1px;
 }
 
-.account-link {
+.account-link,
+.welcome-link,
+.logout-link {
   text-decoration: none;
   font-size: 0.9rem;
   color: #0c0b0b;
+  /* margin-right: 15px; */
+  transition: color 0.3s ease;
 
+}
+
+
+.cart-link:hover {
+  transform: scale(1.1);
+}
+
+/* =========================
+   CART BADGE (Superscript)
+========================= */
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background-color: #ff3c3c;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: bold;
+  padding: 3px 6px;
+  border-radius: 50%;
+  min-width: 18px;
+  text-align: center;
 }
 
 #myButton {
@@ -442,6 +475,94 @@ ul.notice {
   list-style-type: none;
 }
 
+.cart-link {
+  position: relative;
+  font-size: 1.5rem;
+  text-decoration: none;
+}
+
+.cart-badge {
+  background: red;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 50%;
+  position: absolute;
+  top: -6px;
+  right: -10px;
+}
+
+/* =========================
+   CART PAGE STYLING
+========================= */
+
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.cart-table th {
+  background-color: #111;
+  color: #fff;
+  text-align: left;
+  padding: 12px;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+.cart-table td {
+  padding: 15px 12px;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+}
+
+.cart-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Image styling */
+.cart-table img {
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+/* Item name spacing */
+.cart-table td:first-child {
+  font-weight: 600;
+}
+
+/* Price styling */
+.cart-table td:nth-child(2) {
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+/* Quantity styling */
+.cart-table td:nth-child(3) {
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Remove button */
+.cart-table button {
+  background: #d32f2f;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.cart-table button:hover {
+  background: #b71c1c;
+}
 
 footer {
   text-align: center;

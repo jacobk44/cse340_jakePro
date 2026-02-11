@@ -305,3 +305,15 @@ WHERE c.classification_name = 'Sport';
 UPDATE public.inventory
 SET inv_image = REPLACE(inv_image, '/images/', '/images/vehicles/'),
     inv_thumbnail = REPLACE(inv_thumbnail, '/images/', '/images/vehicles/');
+
+
+CREATE TABLE cart (
+  cart_id SERIAL PRIMARY KEY,
+  account_id INT NOT NULL,
+  inv_id INT NOT NULL,
+  quantity INT NOT NULL DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (account_id) REFERENCES account(account_id),
+  FOREIGN KEY (inv_id) REFERENCES inventory(inv_id),
+  UNIQUE (account_id, inv_id)
+);

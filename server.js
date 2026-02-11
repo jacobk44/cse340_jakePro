@@ -16,6 +16,7 @@ const path = require("path");
 const baseController = require("./controllers/baseController")
 const inventoryRoute = require("./routes/inventoryRoute");
 const accountRoute = require("./routes/accountRoute");
+const cartRoute = require("./routes/cartRoute")
 const bodyParser = require("body-parser")
 const cookieParser = require("cookie-parser");
 const app = express();
@@ -23,6 +24,7 @@ const session = require("express-session");
 const pool = require("./database/");
 const jwt = require("jsonwebtoken");
 const accountModel = require("./models/account-model");
+const cartController = require("./controllers/cartController")
 
 
 /* ***********************
@@ -55,6 +57,12 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser());
 // JWT check middleware
 app.use(utilities.checkJWTToken);
+
+/* =========================
+   CART COUNT MIDDLEWARE
+========================= */
+app.use(cartController.cartCount)
+
 
 
 app.use(async (req, res, next) => {
@@ -119,6 +127,8 @@ app.get("/", utilities.handleErrors(baseController.buildHome));
 app.use("/inv", inventoryRoute);
 // Acount route 
 app.use("/account", accountRoute);
+// Cart route
+app.use("/cart", cartRoute);
 
 
 // File Not Found Route - must be last route in list

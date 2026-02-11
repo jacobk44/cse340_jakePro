@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
 const accountModel = require("../models/account-model")
+const cartModel = require("../models/cart-model")
 
 
 
@@ -21,59 +22,79 @@ async function buildLogin(req, res, next) {
 }
 
 
-/* ****************************************
- *  Process login request
- * ************************************ */
 async function processLogin(req, res) {
-  let nav = await utilities.getNav(req)
-  const { account_email, account_password } = req.body
-  const accountData = await accountModel.getAccountByEmail(account_email)
+  let nav = await utilities.getNav(req);
+  const { account_email, account_password } = req.body;
+  const accountData = await accountModel.getAccountByEmail(account_email);
+
   if (!accountData) {
-    req.flash("notice", "Please check your credentials and try again.")
-    res.status(400).render("account/login", {
+    req.flash("notice", "Please check your credentials and try again.");
+    return res.status(400).render("account/login", {
       title: "Login",
       nav,
       errors: null,
       account_email,
       description: "login account"
-    })
-    return
+    });
   }
+
   try {
     if (await bcrypt.compare(account_password, accountData.account_password)) {
-      // Remove password from account data before storing in session
-      delete accountData.account_password
-      // ✅ SUCCESS FLASH (THIS FIXES IT)
-      req.flash("notice", `Welcome back, ${accountData.account_firstname}!`)
-      const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
-      if (process.env.NODE_ENV === 'development') {
-        res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
-      } else {
-        res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
+      delete accountData.account_password;
+      // ✅ Store user in session
+      req.session.user = accountData
+
+      // ✅ Merge guest cart into user cart
+      if (req.session.guest_id) {
+        try {
+          await cartModel.mergeGuestCartToUser(
+            accountData.account_id,
+            req.session.guest_id
+          );
+          delete req.session.guest_id;
+        } catch (cartError) {
+          console.error("MERGE CART ERROR:", cartError);
+          // don’t crash login if cart merge fails
+        }
       }
+
+      req.flash("notice", `Welcome back, ${accountData.account_firstname}!`);
+      const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 });
+
+      if (process.env.NODE_ENV === 'development') {
+        res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 });
+      } else {
+        res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 });
+      }
+
       // Redirect based on account type
       if (accountData.account_type === "Admin") {
-        return res.redirect("/inv/")   // go to Inventory Management
+        return res.redirect("/inv/");
       } else {
-        return res.redirect("/account/") // normal client
+        return res.redirect("/account/");
       }
-    }
-    else {
-      req.flash("notice", "Please check your credentials and try again.")
+    } else {
+      req.flash("notice", "Please check your credentials and try again.");
       return res.status(400).render("account/login", {
         title: "Login",
         nav,
         errors: null,
         account_email,
         description: "login account"
-      })
+      });
     }
   } catch (error) {
-    throw new Error('Access Forbidden')
+    console.error("PROCESS LOGIN ERROR:", error); // log real error
+    req.flash("notice", "Could not log in at this time. Please try again.");
+    res.status(500).render("account/login", {
+      title: "Login",
+      nav,
+      errors: null,
+      account_email,
+      description: "login account"
+    });
   }
 }
-
-
 
 
 

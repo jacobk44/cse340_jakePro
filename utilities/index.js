@@ -66,7 +66,7 @@ Util.buildClassificationGrid = async function (data) {
 /* **************************************
 * Build the vehicle detail view HTML
 * ************************************ */
-Util.buildVehicleDetail = async function (vehicle) {
+Util.buildVehicleDetail = async function (vehicle) { 
   let detail = " ";
   if (vehicle) {
     detail += '<section class="vehicle-detail">'
@@ -88,6 +88,14 @@ Util.buildVehicleDetail = async function (vehicle) {
     detail += '<p><strong>Description:</strong> ' + vehicle.inv_description + '</p>'
     detail += '<p><strong>Color:</strong> ' + vehicle.inv_color + '</p>'
 
+    // 🛒 ADD TO CART (VISIBLE TO ALL USERS)
+    detail += `
+      <form action="/cart/add" method="post" class="add-to-cart-form">
+        <input type="hidden" name="inv_id" value="${vehicle.inv_id}">
+        <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+      </form>
+    `
+
     detail += '</div>'
     detail += '</section>'
   } else {
@@ -96,6 +104,8 @@ Util.buildVehicleDetail = async function (vehicle) {
 
   return detail
 }
+
+
 
 
 Util.buildClassificationList = async function (classification_id = null) {
